@@ -1,0 +1,55 @@
+@use '../utils/variables' as vars;
+@use '../utils/mixins' as mixins;
+
+.navbar {
+  position: sticky;
+  top: 0;
+  @include mixins.flex-center;
+  justify-content: space-between;
+  padding: 20px 40px;
+  background: white;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  z-index: 1000;
+  @include mixins.transition(all);
+
+  &__logo {
+    font-weight: bold;
+    font-size: 1.5rem;
+    color: vars.$primary-color;
+    @include mixins.transition(all);
+  }
+
+  &__links {
+    display: flex;
+    gap: 25px;
+
+    .navbar__link {
+      text-decoration: none;
+      color: vars.$primary-color;
+      font-weight: 500;
+      @include mixins.transition(color, transform);
+
+      &:hover {
+        color: vars.$secondary-color;
+        transform: translateY(-2px);
+      }
+    }
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+
+    &__links {
+      flex-direction: column;
+      gap: 10px;
+      width: 100%;
+
+      .navbar__link {
+        width: 100%;
+      }
+    }
+  }
+}
