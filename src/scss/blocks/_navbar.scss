@@ -8,8 +8,9 @@
   justify-content: space-between;
   padding: 20px 40px;
   background: white;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   z-index: 1000;
+  flex-wrap: wrap;
   @include mixins.transition(all);
 
   &__logo {
@@ -17,6 +18,31 @@
     font-size: 1.5rem;
     color: vars.$primary-color;
     @include mixins.transition(all);
+  }
+
+  // ── Hidden checkbox (the actual toggle) ──
+  &__toggle-input {
+    display: none; // always hidden — controlled via label
+  }
+
+  // ── Burger icon (3 lines) ──
+  &__burger {
+    display: none; // hidden on desktop
+    flex-direction: column;
+    justify-content: space-between;
+    width: 26px;
+    height: 20px;
+    cursor: pointer;
+    z-index: 1001;
+
+    span {
+      display: block;
+      height: 3px;
+      width: 100%;
+      background-color: vars.$primary-color;
+      border-radius: 3px;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
   }
 
   &__links {
@@ -36,20 +62,45 @@
     }
   }
 
-  /* Responsive */
+  // ── Mobile styles ──
   @media (max-width: 768px) {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
+    padding: 16px 24px;
 
+    // Show the burger icon
+    &__burger {
+      display: flex;
+    }
+
+    // Hide nav links by default on mobile
     &__links {
+      display: none;
       flex-direction: column;
-      gap: 10px;
+      gap: 12px;
       width: 100%;
+      padding: 12px 0;
 
       .navbar__link {
         width: 100%;
+        padding: 8px 0;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.06);
       }
+    }
+
+    // When checkbox is :checked → show the links
+    &__toggle-input:checked ~ &__links {
+      display: flex;
+    }
+
+    // Animate burger → X when open
+    &__toggle-input:checked ~ &__burger span:nth-child(1) {
+      transform: translateY(8.5px) rotate(45deg);
+    }
+    &__toggle-input:checked ~ &__burger span:nth-child(2) {
+      opacity: 0;
+      transform: scaleX(0);
+    }
+    &__toggle-input:checked ~ &__burger span:nth-child(3) {
+      transform: translateY(-8.5px) rotate(-45deg);
     }
   }
 }
